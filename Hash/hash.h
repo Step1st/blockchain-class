@@ -36,8 +36,8 @@ std::string hash(std::string input)
         offset = std::stoi(std::to_string(i));
     }
     std::mt19937 generator(input.size() + offset);
-    std::uniform_int_distribution distribution(0,255);
-    while (input.size() % HashLength != 0)
+    std::uniform_int_distribution<int> distribution(0,255);
+    while (input.size() % HashLength != 0 || input.size() == 0)
     {
         input += char(distribution(generator));
     }

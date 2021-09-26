@@ -4,5 +4,6 @@
 #include <random>
 #include <string>
 #include <fstream>
+#include <sstream>
 
-void generateRandom(std::string fileName);
+void generateFiles();

@@ -1,3 +1,4 @@
+//http://www.zedwood.com/article/cpp-md5-function
 /* MD5
  converted to C++ class by Frank Thilo (thilo@unix-ag.org)
  for bzflag (http://www.bzflag.org)
