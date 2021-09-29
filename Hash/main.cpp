@@ -16,11 +16,6 @@ using namespace std::chrono;
 
 int main(int argc, char const *argv[])
 {
-	//std::cout << "argc: " << argc << std::endl;
-	//for (size_t i = 0; i < argc; i++)
-	//{
-	//	std::cout << "argv " << i << ": " << argv[i] << std::endl;
-	//}
 	if (argc > 1)
 	{
 		if (argc == 3 && strcmp(argv[1], "-hs") == 0)
@@ -43,12 +38,12 @@ int main(int argc, char const *argv[])
 			input.close();
 			std::cout << "Hash: " << hash(text.str()) << std::endl;
 		}
-		else if (argc == 2 && strcmp(argv[1], "-bench") == 0)
+		else if (argc == 3 && strcmp(argv[1], "-bench") == 0 && strcmp(argv[2], "-S") == 0)
 		{
-			std::cout << "Generating..." << std::endl;
-			generateFiles();
+			std::cout << "Generating similar pairs..." << std::endl;
+			generateSimilarPairs();
 			std::fstream input;
-			input.open("pairtest.txt");
+			input.open("pairtestS.txt");
 			if (input.fail())
 			{
 				std::cout << "Failed to open file" << std::endl;
@@ -59,7 +54,7 @@ int main(int argc, char const *argv[])
 			std::pair<std::string, std::string> hashes;
 			std::map<int, int> count;
 			buffer << input.rdbuf();
-			std::cout << "Checking..." << std::endl;
+			std::cout << "Checking similar pairs..." << std::endl;
 			while (buffer) {
 				if (!buffer.eof())
 				{
@@ -82,12 +77,57 @@ int main(int argc, char const *argv[])
 
 
 		}
-		else if (argc == 2 && strcmp(argv[1], "-spd") == 0)
+		else if (argc == 3 && strcmp(argv[1], "-bench") == 0 && strcmp(argv[2], "-R") == 0)
 		{
-			std::fstream file("konstitucija.txt");
+			std::cout << "Generating random pairs..." << std::endl;
+			generateRandomPairs();
+			std::fstream input;
+			input.open("pairtestR.txt");
+			if (input.fail())
+			{
+				std::cout << "Failed to open file" << std::endl;
+				exit(1);
+			}
+			std::stringstream line, buffer;
+			std::string temp;
+			std::pair<std::string, std::string> hashes;
+			std::map<int, int> count;
+			buffer << input.rdbuf();
+			std::cout << "Checking random pairs..." << std::endl;
+			while (buffer) {
+				if (!buffer.eof())
+				{
+					std::getline(buffer, temp);
+					line << temp;
+					line >> hashes.first >> hashes.second;
+					if (hash(hashes.first) == hash(hashes.second))
+					{
+						count[hashes.first.size()]++;
+					}
+					hashes.first.clear();
+					hashes.second.clear();
+				}
+				else break;
+			}
+			std::cout << "size 10 collitions: " << count[10] << std::endl;
+			std::cout << "size 100 collitions: " << count[100] << std::endl;
+			std::cout << "size 500 collitions: " << count[500] << std::endl;
+			std::cout << "size 1000 collitions: " << count[1000] << std::endl;
+		}
+		else if (argc == 3 && strcmp(argv[1], "-spd") == 0)
+		{
+			std::fstream input;
+			std::string fileName = argv[2];
 			std::stringstream buffer;
 			std::string line;
-			buffer << file.rdbuf();
+
+			input.open(fileName);
+			if (input.fail())
+			{
+				std::cout << "Failed to open file" << std::endl;
+				exit(1);
+			}
+			buffer << input.rdbuf();
 
 			std::chrono::duration<double> md5sum(0);
 			std::chrono::duration<double> sha2sum(0);
@@ -125,19 +165,25 @@ int main(int argc, char const *argv[])
 			std::cout << "SHA256 took " << sha2sum.count() << std::endl;
 
 		}
-		else
-		{
+		else {
 
+		std::cout << "Error: bad arguments" << std::endl; 
+		std::cout << "---------------------------------------" << std::endl;
+		std::cout << "To hash a string: Hash -hs <text>" << std::endl;
+		std::cout << "To hash a file(include extention): Hash -hf <path>" << std::endl;
+		std::cout << "To test for collitions with random pairs: Hash -bench -R" << std::endl;
+		std::cout << "To test for collitions with similar pairs: Hash -bench -S" << std::endl;
+		std::cout << "Speed test with selected file(include extention): Hash -spd <path>" << std::endl;
 
 		}
 	}
 	else
 	{
-		for (size_t i = 0; i < 256; i++)
-		{
-			std::cout << i << " : " << char(i) << " : " << hash(std::to_string(char(i))) << " " << (hash(std::to_string(char(i))).size() == 64 ? char(251) : 'x') << std::endl;
-		}
-
+	std::cout << "To hash a string: Hash -hs <text>" << std::endl;
+	std::cout << "To hash a file(include extention): Hash -hf <path>" << std::endl;
+	std::cout << "To test for collitions with random pairs: Hash -bench -R" << std::endl;
+	std::cout << "To test for collitions with similar pairs: Hash -bench -S" << std::endl;
+	std::cout << "Speed test with selected file(include extention): Hash -spd <path>" << std::endl;
 	}
 
     return 0;

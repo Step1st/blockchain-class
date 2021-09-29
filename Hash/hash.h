@@ -30,12 +30,16 @@ std::string bin_to_hex(std::string binary) {
 
 std::string hash(std::string input)
 {
-    int offset = 0;
+    int seedOffset = 0;
+    //for (size_t i = 0; i < input.size(); i+=4)
+    //{
+    //    seedOffset += input[i];
+    //}
     for (auto& i : input)
     {
-        offset = std::stoi(std::to_string(i));
+        seedOffset += std::stoi(std::to_string(i));
     }
-    std::mt19937 generator(input.size() + offset);
+    std::mt19937 generator(input.size() + seedOffset);
     std::uniform_int_distribution<int> distribution(0,255);
     while (input.size() % HashLength != 0 || input.size() == 0)
     {
@@ -50,10 +54,8 @@ std::string hash(std::string input)
     for (auto& Char : input)
     {
         temps = ((c = (std::bitset<8>(Char) << 3) ^ c) >> 1);
-        c = ~c;
         temp += (temps).to_string();
         if (i % HashLength == 0 && i != 0) {
-            std::rotate(temp.rbegin(), temp.rbegin() + 1, temp.rend());
             blocks.push_back(std::bitset<256>(temp));
             temp.clear();
         }
@@ -61,12 +63,13 @@ std::string hash(std::string input)
     }
 
     std::bitset<256> hash = blocks[0];
+    std::bitset<256> c2(0);
 
-    for (size_t i = 0; i < 1000; i++)
+    for (size_t i = 0; i < 10; i++)
     {
         for (size_t i = 0; i < blocks.size() - 1; i++)
         {
-            blocks[i] ^= blocks[i + 1];
+            blocks[i] = ((blocks[i] ^ (blocks[i + 1] << 29)) >> 3);
         }
     }
 
@@ -75,12 +78,16 @@ std::string hash(std::string input)
         hash ^= (((blocks[i]) << 19));
     }
 
-    //for (size_t i = 0; i < hash.size() - 1; i++)
+
+    //for (size_t i = 0; i < 10; i++)
     //{
-    //    hash[i] = hash[i] ^ hash[i + 1];
+    //    for (size_t i = 0; i < hash.size() - 1; i++)
+    //    {
+    //        hash[i] = hash[i] ^ hash[i + 1];
+    //    }
     //}
 
-    for (size_t i = 0; i < 1000; i++)
+    for (size_t i = 0; i < 10; i++)
     {
         for (size_t i = hash.size() - 1; i > 0; i--)
         {
