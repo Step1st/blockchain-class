@@ -2,8 +2,8 @@
 
 ## Veikimo princimas
 
-Šioje programoje realizuotas hash‘avimo algoritmas leidžiantis užšifruoti unikaliu fiksuoto dydžio pseudo-atsitiktiniu skaičiumi, betkokį įvedimo tekstą .
-Programa reikia naudotis per komandinę eilutę.Paleidus programa bus nurodytos instrukcijos:
+Šioje programoje realizuotas hash‘avimo algoritmas leidžiantis užšifruoti unikaliu fiksuoto dydžio pseudo-atsitiktiniu skaičiumi, betkokį įvedimo tekstą.
+Programa reikia naudotis per komandinę eilutę. Paleidus programa bus nurodytos instrukcijos:
 ```
 To hash a string: Hash -hs <text>
 To hash a file(include extention): Hash -hf <path>
@@ -63,7 +63,7 @@ Size 100 collitions: 0
 Size 500 collitions: 0
 Size 1000 collitions: 0
 ```
-Per kelias generacijas nei vienos kolizijos nebuvo gauta
+Per kelias generacijas nei vienos kolizijos nebuvo gauta.
 
 
 ### Panašių porų hash'ų lyginimas 
@@ -86,10 +86,10 @@ Size 100 collitions: 263
 Size 500 collitions: 261
 Size 1000 collitions: 246
 ```
-Per šį bandymą kiekviena generacija buvo gauta apie ~1000 kolizijų. Hash'o vidutiniškas procentinis skirtingumas bitų lygmenyje apytiksliai - 45%, o hex'ų lygmenyje - 89% .
+Per šį bandymą kiekviena generacija buvo gauta apie ~1000 kolizijų. Hash'o vidutiniškas procentinis skirtingumas bitų lygmenyje apytiksliai - 45%, o hex'ų lygmenyje - 89%.
 
 ## Išvados
-Bandymų rezultatai parodo, kad šis maišos algoritmas gali priimti bet kokio dydžio eilutės  ir gražinti fiksuoto dydžio  rezultatą. Taip pat, algoritmas yra deterministinis. Tačiau jis nėra pilnai atsparus kolizijoms bei algoritmas negali pasižymėti savo spartumu. 
+Bandymų rezultatai parodo, kad šis maišos algoritmas gali priimti bet kokio dydžio eilutės  ir gražinti fiksuoto dydžio  rezultatą. Taip pat, algoritmas yra deterministinis. Tačiau jis nėra pilnai atsparus kolizijoms bei algoritmas nepasižymėti savo spartumu. 
 
 
 
