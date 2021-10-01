@@ -45,13 +45,12 @@ std::string hash(std::string input, bool bin)
         iteration++;
     }
 
-    std::bitset<256> hash = blocks[0];
-
     for (size_t i = 0; i < blocks.size() - 1; i++)
     {
         blocks[i] = ((blocks[i] ^ (blocks[i + 1] << 29)));
     }
 
+    std::bitset<256> hash = blocks[0];
     for (size_t i = 1; i < blocks.size(); i++)
     {
         hash ^= (((blocks[i]) << 19));
